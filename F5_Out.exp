@@ -1,0 +1,40 @@
+#!/usr/bin/expect -f
+
+# Set variables
+ set username $env(USER)
+ set hostname [lindex $argv 0]
+ set password [lindex $argv 1]
+
+# Log results
+ log_file -a ~/F5_Check/F5LOG.log
+
+# Announce which device we are working on and at what time
+ send_user "\n"
+ send_user ">>>>>  Working on $hostname @ [exec date] <<<<<\n"
+ send_user "\n"
+
+# SSH
+spawn ssh $hostname
+
+expect {
+"no)? " { 
+send "yes\n"
+expect "*assword: "
+sleep 1
+send "$password\r"
+}
+"*assword: " { 
+sleep 1
+send "$password\r"
+ }
+}
+
+expect "(tmos)#"
+send "sys\n"
+expect "(tmos.sys)#"
+
+send "show software\n"
+expect "#"
+send "exit\n"
+expect "#"
+send "quit\n"
