@@ -1,7 +1,6 @@
 #!/usr/bin/expect -f
 
 # Set variables
-# set username $env(USER)
  set hostname [lindex $argv 0]
  set password [lindex $argv 1]
  set username [lindex $argv 2]
