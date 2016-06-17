@@ -9,5 +9,5 @@
  
 # Feed the expect script a device list & the collected passwords
 for device in `cat ~/F5_Check/F5_Host.txt`; do
- ./F5_Out.exp $device $password $user ;
+ ./F5_Out_v1.exp $device $password $user ;
  done
