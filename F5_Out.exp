@@ -38,3 +38,6 @@ expect "#"
 send "exit\n"
 expect "#"
 send "quit\n"
+
+expect ":~\$"
+exit
