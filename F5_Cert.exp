@@ -1,0 +1,36 @@
+#!/usr/bin/expect -f
+
+# Set variables
+ set hostname [lindex $argv 0]
+ set password [lindex $argv 1]
+ set username [lindex $argv 2]
+# Log results
+ log_file -a ~/F5_Check/F5LOG.log
+
+# Announce which device we are working on and at what time
+ send_user "\n"
+ send_user ">>>>>  Working on $hostname @ [exec date] <<<<<\n"
+ send_user "\n"
+
+# SSH
+spawn ssh $username@$hostname
+
+expect {
+"no)? " { 
+send "yes\n"
+expect "*assword: "
+sleep 1
+send "$password\r"
+}
+"*assword: " { 
+sleep 1
+send "$password\r"
+ }
+}
+
+expect "(tmos)#"
+send "list sys crypto recursive cert | grep \'^sys\\|expiration\'\n"
+expect "(tmos)#"
+send "quit\n"
+expect ":~\$"
+exit
